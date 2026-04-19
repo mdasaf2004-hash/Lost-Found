@@ -5,18 +5,20 @@ function loadItems() {
   const items = JSON.parse(localStorage.getItem("items")) || [];
   itemsList.innerHTML = "";
 
-  items.slice().reverse().forEach((item, index) => {
+  // Sort by newest first using the 'id' (timestamp)
+  const sortedItems = items.sort((a, b) => b.id - a.id);
+
+  sortedItems.forEach((item) => {
     const div = document.createElement("div");
-    div.className = "item " + item.type.toLowerCase();
+    div.className = `item ${item.type.toLowerCase()}`;
 
     div.innerHTML = `
-      <h3>${item.type}: ${item.name}</h3>
+      <h3>${item.type === 'Lost' ? '❌' : '🔍'} ${item.name}</h3>
       <p>${item.description}</p>
-      <p><strong>Location:</strong> ${item.location}</p>
-      <p><strong>Contact:</strong> ${item.contact}</p>
-      <button onclick="deleteItem(${index})">Delete</button>
+      <p>📍 <strong>${item.location}</strong></p>
+      <p>📱 <strong>${item.contact}</strong></p>
+      <button class="btn-delete" onclick="deleteItem(${item.id})">Remove</button>
     `;
-
     itemsList.appendChild(div);
   });
 }
@@ -24,7 +26,8 @@ function loadItems() {
 form.addEventListener("submit", function(e) {
   e.preventDefault();
 
-  const item = {
+  const newItem = {
+    id: Date.now(), // Unique ID for safer deletion
     type: document.getElementById("type").value,
     name: document.getElementById("name").value,
     description: document.getElementById("description").value,
@@ -33,22 +36,19 @@ form.addEventListener("submit", function(e) {
   };
 
   const items = JSON.parse(localStorage.getItem("items")) || [];
-  items.push(item);
-
+  items.push(newItem);
   localStorage.setItem("items", JSON.stringify(items));
 
   form.reset();
   loadItems();
 });
 
-
-
-function deleteItem(index) {
-  const items = JSON.parse(localStorage.getItem("items")) || [];
-  items.splice(index, 1);
+function deleteItem(id) {
+  let items = JSON.parse(localStorage.getItem("items")) || [];
+  // Filter out the item with the matching ID
+  items = items.filter(item => item.id !== id);
   localStorage.setItem("items", JSON.stringify(items));
   loadItems();
 }
 
 loadItems();
-
