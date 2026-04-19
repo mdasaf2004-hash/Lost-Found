@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>University Lost & Found</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="header">
+    <img src="download (1).jpg" alt="Logo" class="logo">
+    <h1>HMRITM Lost & Found Help Center</h1>
+
+      <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#">Support</a>
+    <a href="#">About</a>
+  </div>
+</div>
+
+
+
+<form id="itemForm">
+  <select id="type">
+    <option value="Lost">Lost</option>
+    <option value="Found">Found</option>
+  </select>
+
+  <input type="text" id="name" placeholder="Item name" required>
+  <textarea id="description" placeholder="Description"></textarea>
+  <input type="text" id="location" placeholder="Location">
+  <input type="text" id="contact" placeholder="Contact info" required>
+
+  <button type="submit">Submit</button>
+</form>
+
+<h2>Items</h2>
+<div id="itemsList"></div>
+
+<script src="main.js"></script>
+</body>
+</html>
